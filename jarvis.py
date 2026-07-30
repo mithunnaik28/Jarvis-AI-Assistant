@@ -39,7 +39,6 @@ def listen():
         print("Could not understand")
         return ""
 
-
 def ask_jarvis(question):
     response = ollama.chat(
         model="gemma3:4b",
@@ -83,3 +82,5 @@ while True:
     if command:
         answer = ask_jarvis(command)
         speak(answer)
+
+# still builting
