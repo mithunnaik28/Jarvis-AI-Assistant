@@ -2,8 +2,7 @@ import sys
 import ollama
 import speech_recognition as sr
 import pyttsx3
-import webbrowser
-import os
+from commands.browser import run_command
 
 sys.stdout.reconfigure(encoding='utf-8')
 # Voice engine
@@ -39,6 +38,7 @@ def listen():
         print("Could not understand")
         return ""
 
+
 def ask_jarvis(question):
     response = ollama.chat(
         model="gemma3:4b",
@@ -53,34 +53,22 @@ def ask_jarvis(question):
     answer = response["message"]["content"]
     return answer[:100]
 
-
-speak("Hello, I am Jarvis. How can I help you?")
+speak("Hello, I am Jarvis.")
 
 while True:
 
     command = listen()
 
-    if command.lower() == "exit":
+    if command.lower() == "bye":
         speak("Goodbye")
         break
-    
-    if "open chrome" in command.lower():
-        os.system("start chrome")
-        speak("Opening Chrome")
-        continue
 
-    elif "open youtube" in command.lower():
-        webbrowser.open("https://www.youtube.com")
-        speak("Opening YouTube")
-        continue
+    result = run_command(command)
 
-    elif "open google" in command.lower():
-        webbrowser.open("https://www.google.com")
-        speak("Opening Google")
+    if result:
+        speak("Opening " + result.replace("open ", ""))
         continue
 
     if command:
         answer = ask_jarvis(command)
         speak(answer)
-
-# still builting
