@@ -47,7 +47,6 @@ while True:
         speak("Goodbye")
         break
 
-
     result = run_command(command)
 
     if result:
